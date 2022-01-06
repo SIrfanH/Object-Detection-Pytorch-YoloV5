@@ -1,7 +1,10 @@
 # Object-Detection-Pytorch-YoloV5
 
 ## Instructions for how to use this repository
-First make sure you have git installed on your device and clone this project
+First make sure you have git installed on your device and clone this project. If you don't have git already installed you can download for here:
+```
+https://git-scm.com/download
+```
 
 # Installing Python
 Python version >= 3.8 required
@@ -19,7 +22,7 @@ Python -m venv  VirtualEnvironment
 ```
 Then activate the virtual environment before proceeding to next step:
 ```
-	Python virutalEnvironment\Scripts\activate
+Python virutalEnvironment\Scripts\activate
 ```
 
 # Installing Pytorch
@@ -30,13 +33,13 @@ pip3 install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio===0.10.1+c
 ```
 For CPU based computations:
 ```
-	pip3 install torch torchvision torchaudio
+pip3 install torch torchvision torchaudio
 ```
 
 # Installing Yolov5
 Make sure that you are in your cloned project directory then execute this git command
 ```
-	git clone https://github.com/ultralytics/yolov5
+git clone https://github.com/ultralytics/yolov5
 ```
 Then execute this command to install dependencies:
 ```

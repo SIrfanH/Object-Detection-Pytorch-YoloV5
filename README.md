@@ -1,9 +1,9 @@
 # Object-Detection-Pytorch-YoloV5
 
-##Instructions for how to use this repository
+## Instructions for how to use this repository
 First make sure you have git installed on your device and clone this project
 
-#Installing Python
+# Installing Python
 Python version >= 3.8 required
 Download from here : 
 ```

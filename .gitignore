@@ -10,6 +10,7 @@ __pycache__/
 yolov5/
 CVenv/
 labelImg/
+yolov5s.pt
 
 # Distribution / packaging
 .Python

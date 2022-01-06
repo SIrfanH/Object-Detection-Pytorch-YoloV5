@@ -11,6 +11,7 @@ yolov5/
 CVenv/
 labelImg/
 yolov5s.pt
+video.mp4
 
 # Distribution / packaging
 .Python

@@ -22,7 +22,7 @@ Python -m venv  virtualEnvironment
 ```
 Then activate the virtual environment before proceeding to next step:
 ```
-Python virutalEnvironment\Scripts\activate
+virutalEnvironment\Scripts\activate
 ```
 
 # Installing Pytorch

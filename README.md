@@ -9,8 +9,7 @@ Download from here :
 ```
 https://www.python.org/downloads/
 ```
-Be sure to add python installation directory to Path in Environment Variables
-Python already comes with pip package manager which is good
+Be sure to add python installation directory to Path in Environment Variables. Python already comes with pip package manager which is good
 
 # Creating Virtual Environment
 This step is optional you don’t need to create a virtual environment but it is recommended to create one. Virtual environment is useful for isolating project packages and dependencies from each other. So create a virtual environment in the same directory that you cloned this project.

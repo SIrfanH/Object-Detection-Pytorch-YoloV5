@@ -29,11 +29,11 @@ Python virutalEnvironment\Scripts\activate
 This setup will automatically download Cuda 11.3 and cudnn
 For GPU Cuda based computation:
 ```
-pip3 install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio===0.10.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio===0.10.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 ```
 For CPU based computations:
 ```
-pip3 install torch torchvision torchaudio
+pip install torch torchvision torchaudio
 ```
 
 # Installing Yolov5

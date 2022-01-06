@@ -18,7 +18,7 @@ Be sure to add python installation directory to Path in Environment Variables. P
 This step is optional you don’t need to create a virtual environment but it is recommended to create one. Virtual environment is useful for isolating project packages and dependencies from each other. So create a virtual environment in the same directory that you cloned this project.
 First open command line on windows and change directory to the cloned folder then execute the following command which will create a virtual environment :
 ```
-Python -m venv  VirtualEnvironment
+Python -m venv  virtualEnvironment
 ```
 Then activate the virtual environment before proceeding to next step:
 ```

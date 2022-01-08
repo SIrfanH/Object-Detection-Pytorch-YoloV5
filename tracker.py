@@ -46,13 +46,16 @@ class EuclideanDistTracker:
 
                 if dist < 25:
 
-                    print("Aynı obje!!")
+                    #print("Aynı obje!!")
 
-                    if dist < 15 and int(np.squeeze(name[index])) == 2:
+                    if dist < 2 and int(np.squeeze(name[index])) == 2:
 
                         numStoppedCar += 1
+                        index += 1
+                    else:
+                        index += 1
 
-
+                
                         
                     self.center_points[id] = (cx, cy)
                     #print(self.center_points)
@@ -65,7 +68,7 @@ class EuclideanDistTracker:
                 self.center_points[self.id_count] = (cx, cy)
                 objects_bbs_ids.append([x, y, w, h, self.id_count])
                 self.id_count += 1
-        index += 1
+                
         """""
         if numStoppedCar > 0:
             now = datetime.now()

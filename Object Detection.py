@@ -6,6 +6,7 @@ import os
 from tracker import *
 from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
+from trackerLib import CentroidTracker
 
 # Load the yolov5 model.. Model will get downloaded when executed
 model = torch.hub.load("ultralytics/yolov5", "yolov5s")
@@ -16,9 +17,11 @@ prev_frame_time = 0
 # used to record the time at which we processed current frame
 new_frame_time = 0
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("Alibi ALI-IPU3030RV IP Camera Highway Surveillance.mp4")
 
 tracker1 = EuclideanDistTracker(1)
+ct = CentroidTracker()
+(H, W) = (None, None)
 
 dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
 
@@ -34,9 +37,12 @@ while True:
     if not ret:
         break
     
+    if W is None or H is None:
+        (H, W) = frame.shape[:2]
+
     results = model(frame)
-    print(results.pandas().xyxy[0])
-    print(type(results.pandas().xyxy[0]))
+    # print(results.pandas().xyxy[0])
+    # print(type(results.pandas().xyxy[0]))
     new_frame = np.squeeze(results.render())
 
     now = datetime.now()
@@ -65,7 +71,9 @@ while True:
     boxes_ids, numStoppedCar = tracker1.update(rects1, Class1)
 
     if (numStoppedCar > 0):
-        print("DURAN İNSAN")
+        print("DURAN ARABA")
+    else:
+        print("ARABA HAREKET HALİNDE")
     
     # down_width = 600
     # down_height = 600

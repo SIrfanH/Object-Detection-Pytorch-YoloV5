@@ -2,6 +2,10 @@ import cv2
 import torch
 import numpy as np
 import time
+import os
+from tracker import *
+from CDTPMySQL import connectToMySQL, queryToMySQL
+from datetime import datetime
 
 # Load the yolov5 model.. Model will get downloaded when executed
 model = torch.hub.load("ultralytics/yolov5", "yolov5s")
@@ -13,14 +17,55 @@ prev_frame_time = 0
 new_frame_time = 0
 
 cap = cv2.VideoCapture(0)
+
+tracker1 = EuclideanDistTracker(1)
+
+dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+
+
 while True:
+
+    rects1 = []
+    Class1 = []
+
+    #os.system("cls")
     ret, frame = cap.read()
     
     if not ret:
         break
     
     results = model(frame)
+    print(results.pandas().xyxy[0])
+    print(type(results.pandas().xyxy[0]))
     new_frame = np.squeeze(results.render())
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+
+    
+
+    df = results.pandas().xyxy[0]
+    dummy = df.values.tolist()
+
+    for i in range(len(dummy)):
+        rects1.append([int(dummy[i][0]), int(dummy[i][1]), int(dummy[i][2]) - int(dummy[i][1]), int(dummy[i][3]) - int(dummy[i][0])])
+        Class1.append([int(dummy[i][5])])
+
+    # lengthh = len(dummy)
+    # xLeftBottom = df["xmin"]
+    # yLeftBottom = df["ymin"]
+    # xRightTop = df["xmax"]
+    # yRightTop = df["ymax"]
+    # Class = df["class"]
+
+    
+
+    # rects1.append([int(xLeftBottom), int(yLeftBottom), int(xRightTop) - int(xLeftBottom), int(yRightTop) - int(yLeftBottom)])
+
+    boxes_ids, numStoppedCar = tracker1.update(rects1, Class1)
+
+    if (numStoppedCar > 0):
+        print("DURAN İNSAN")
     
     # down_width = 600
     # down_height = 600

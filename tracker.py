@@ -4,7 +4,7 @@ from time import sleep
 import os
 from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
-
+import numpy as np
 
 class EuclideanDistTracker:
     def __init__(self, id):
@@ -21,7 +21,10 @@ class EuclideanDistTracker:
            
 
     # 1 -> DURAN ARABA, 2 -> YOLDA İNSAN, 3 -> DENEME
-    def update(self, objects_rect):
+    def update(self, objects_rect, Class):
+
+        numStoppedCar = 0
+        name = Class
 
         numStoppedCar = 0
         
@@ -29,6 +32,7 @@ class EuclideanDistTracker:
         objects_bbs_ids = []
 
         # Get center point of new object
+        index = 0
         for rect in objects_rect:
             x, y, w, h = rect
             cx = (x + x + w) // 2
@@ -44,7 +48,7 @@ class EuclideanDistTracker:
 
                     print("Aynı obje!!")
 
-                    if dist < 15:
+                    if dist < 15 and int(np.squeeze(name[index])) == 2:
 
                         numStoppedCar += 1
 
@@ -61,7 +65,8 @@ class EuclideanDistTracker:
                 self.center_points[self.id_count] = (cx, cy)
                 objects_bbs_ids.append([x, y, w, h, self.id_count])
                 self.id_count += 1
-
+        index += 1
+        """""
         if numStoppedCar > 0:
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
@@ -75,9 +80,10 @@ class EuclideanDistTracker:
 
             print("DURAN ARABA YOK: " + str(self.cam_id))
             query = f'UPDATE cdtp SET anomaly_1=("{0}"), timestamp=("{current_time}") WHERE cam_id=({self.cam_id});'
-            queryToMySQL(self.cursor, self.conn, query)            
-        os.system("cls")
-        numStoppedCar = 0
+            queryToMySQL(self.cursor, self.conn, query)    
+            """"" 
+        #os.system("cls")
+        
 
         # Clean the dictionary by center points to remove IDS not used anymore
         new_center_points = {}
@@ -88,7 +94,7 @@ class EuclideanDistTracker:
 
         # Update dictionary with IDs not used removed
         self.center_points = new_center_points.copy()
-        return objects_bbs_ids
+        return objects_bbs_ids, numStoppedCar
 
 
 

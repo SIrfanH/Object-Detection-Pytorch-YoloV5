@@ -2,7 +2,7 @@ import math
 import socket
 from time import sleep
 import os
-from CDTPMySQL import connectToMySQL, queryToMySQL
+#from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
 import numpy as np
 
@@ -15,9 +15,12 @@ class EuclideanDistTracker:
         self.id_count = 0
         self.cam_id = id
         # Define the connection credentials
-        dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
-        self.cursor = dataBaseCursor
-        self.conn = dataBaseConn     
+        #dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+        #self.cursor = dataBaseCursor
+        #self.conn = dataBaseConn  
+
+        # For storing much older position of the objects
+        self.older_center_points = {}   
            
 
     # 1 -> DURAN ARABA, 2 -> YOLDA İNSAN, 3 -> DENEME
@@ -48,7 +51,7 @@ class EuclideanDistTracker:
 
                     #print("Aynı obje!!")
 
-                    if dist < 2 and int(np.squeeze(name[index])) == 2:
+                    if dist == 0 and int(np.squeeze(name[index])) == 2:
 
                         numStoppedCar += 1
                         index += 1
@@ -98,6 +101,30 @@ class EuclideanDistTracker:
         # Update dictionary with IDs not used removed
         self.center_points = new_center_points.copy()
         return objects_bbs_ids, numStoppedCar
+
+    def detectReversedCars(self, orientaion):
+        # Check if we have list of 5 frame old position
+        if len(self.older_center_points):
+            for id, center in self.center_points.items():
+                if orientaion == 'vertical':
+                    if self.older_center_points.get(id):
+                        #print(self.center_points_5frame.get(id))
+                        centerX5F,centerY5F = self.older_center_points[id]
+                        ydiff = center[1] - centerY5F
+                        #print(ydiff)
+                        if(ydiff<-5):
+                            print("Ters Giden Araba " + str(id))
+
+                else:
+                    if self.older_center_points.get(id):
+                        centerX5F,centerY5F = self.older_center_points[id]
+                        xdiff = center[0] - centerX5F
+                        if(xdiff<-5):
+                            print("Ters Giden Araba "+ str(id))
+            self.older_center_points = {}
+        else:
+            self.older_center_points = self.center_points.copy()
+
 
 
 

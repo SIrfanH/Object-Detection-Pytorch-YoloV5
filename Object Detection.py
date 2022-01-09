@@ -4,7 +4,7 @@ import numpy as np
 import time
 import os
 from tracker import *
-from CDTPMySQL import connectToMySQL, queryToMySQL
+#from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
 from trackerLib import CentroidTracker
 
@@ -17,13 +17,14 @@ prev_frame_time = 0
 # used to record the time at which we processed current frame
 new_frame_time = 0
 
-cap = cv2.VideoCapture("Alibi ALI-IPU3030RV IP Camera Highway Surveillance.mp4")
+cap = cv2.VideoCapture("videoplayback (1).mp4")
 
 tracker1 = EuclideanDistTracker(1)
 ct = CentroidTracker()
 (H, W) = (None, None)
+frameCounter = 0
 
-dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+#dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
 
 
 while True:
@@ -54,7 +55,7 @@ while True:
     dummy = df.values.tolist()
 
     for i in range(len(dummy)):
-        rects1.append([int(dummy[i][0]), int(dummy[i][1]), int(dummy[i][2]) - int(dummy[i][1]), int(dummy[i][3]) - int(dummy[i][0])])
+        rects1.append([int(dummy[i][0]), int(dummy[i][1]), int(dummy[i][2]) - int(dummy[i][0]), int(dummy[i][3]) - int(dummy[i][1])])
         Class1.append([int(dummy[i][5])])
 
     # lengthh = len(dummy)
@@ -64,16 +65,24 @@ while True:
     # yRightTop = df["ymax"]
     # Class = df["class"]
 
+
+
     
 
     # rects1.append([int(xLeftBottom), int(yLeftBottom), int(xRightTop) - int(xLeftBottom), int(yRightTop) - int(yLeftBottom)])
 
     boxes_ids, numStoppedCar = tracker1.update(rects1, Class1)
 
+    # this code is executed every 10 frames
+    if frameCounter == 10:
+        tracker1.detectReversedCars('vertical')
+        frameCounter = 0
+    #cv2.putText(new_frame,boxes_ids[4],)
+
     if (numStoppedCar > 0):
         print("DURAN ARABA")
-    else:
-        print("ARABA HAREKET HALİNDE")
+    #else:
+        #print("ARABA HAREKET HALİNDE")
     
     # down_width = 600
     # down_height = 600
@@ -82,6 +91,9 @@ while True:
     
     # font which we will be using to display FPS
     font = cv2.FONT_HERSHEY_SIMPLEX
+
+    for x,y,w,h,id in boxes_ids:
+        cv2.putText(new_frame,str(id),(x,y+h),font,1,(255, 0, 0),1,cv2.LINE_AA)
     # time when we finish processing for this frame
     new_frame_time = time.time()
     
@@ -92,12 +104,17 @@ while True:
     prev_frame_time = new_frame_time
     fps = str(int(fps))
     
-    cv2.putText(new_frame, fps, (7, 70), font, 3, (100, 255, 0), 3, cv2.LINE_AA)
+    cv2.putText(new_frame, fps, (7, 70), font, 1, (100, 255, 0), 1, cv2.LINE_AA)
     
     cv2.imshow('Yolo', new_frame)
+
+    frameCounter +=1
     
-    if cv2.waitKey(10) & 0xFF == ord('q'):
+    key = cv2.waitKey(1)
+    if key == ord('q'):
         break
+    if key == ord('p'):
+        cv2.waitKey(-1)
         
 cap.release()
 cv2.destroyAllWindows()

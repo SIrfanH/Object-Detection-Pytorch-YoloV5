@@ -11,6 +11,7 @@ yolov5/
 CVenv/
 labelImg/
 yolov5s.pt
+yolov5l.pt
 
 # Distribution / packaging
 .Python

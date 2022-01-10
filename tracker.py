@@ -2,7 +2,7 @@ import math
 import socket
 from time import sleep
 import os
-#from CDTPMySQL import connectToMySQL, queryToMySQL
+from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
 import numpy as np
 
@@ -15,9 +15,9 @@ class EuclideanDistTracker:
         self.id_count = 0
         self.cam_id = id
         # Define the connection credentials
-        #dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
-        #self.cursor = dataBaseCursor
-        #self.conn = dataBaseConn  
+        dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+        self.cursor = dataBaseCursor
+        self.conn = dataBaseConn  
 
         # For storing much older position of the objects
         self.older_center_points = {}   
@@ -51,7 +51,7 @@ class EuclideanDistTracker:
 
                     #print("Aynı obje!!")
 
-                    if dist == 0 and int(np.squeeze(name[index])) == 2:
+                    if dist < 15 and int(np.squeeze(name[index])) == 2:
 
                         numStoppedCar += 1
                         index += 1

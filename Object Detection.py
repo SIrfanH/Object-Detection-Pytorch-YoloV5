@@ -4,7 +4,7 @@ import numpy as np
 import time
 import os
 from tracker import *
-#from CDTPMySQL import connectToMySQL, queryToMySQL
+from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
 from trackerLib import CentroidTracker
 
@@ -24,7 +24,7 @@ ct = CentroidTracker()
 (H, W) = (None, None)
 frameCounter = 0
 
-#dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
 
 
 while True:

@@ -1,15 +1,20 @@
+from typing import Counter
 import cv2
 import torch
 import numpy as np
 import time
 import os
 from tracker import *
-from CDTPMySQL import connectToMySQL, queryToMySQL
+#from CDTPMySQL import connectToMySQL, queryToMySQL
 from datetime import datetime
 from trackerLib import CentroidTracker
+import serial
+import time
+
+arduino_serial = serial.Serial("com4",115200)
 
 # Load the yolov5 model.. Model will get downloaded when executed
-model = torch.hub.load("ultralytics/yolov5", "yolov5s")
+model = torch.hub.load("ultralytics/yolov5", "yolov5l")
 
 # used to record the time when we processed last frame
 prev_frame_time = 0
@@ -17,15 +22,17 @@ prev_frame_time = 0
 # used to record the time at which we processed current frame
 new_frame_time = 0
 
-cap = cv2.VideoCapture("videoplayback (1).mp4")
+cap = cv2.VideoCapture(1)
 
 tracker1 = EuclideanDistTracker(1)
 ct = CentroidTracker()
 (H, W) = (None, None)
 frameCounter = 0
 
-dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
 
+#dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+
+duranCounter = 0
 
 while True:
 
@@ -55,7 +62,7 @@ while True:
     dummy = df.values.tolist()
 
     for i in range(len(dummy)):
-        rects1.append([int(dummy[i][0]), int(dummy[i][1]), int(dummy[i][2]) - int(dummy[i][0]), int(dummy[i][3]) - int(dummy[i][1])])
+        rects1.append([int(dummy[i][0]), int(dummy[i][1]), int(dummy[i][2]) - int(dummy[i][0]), int(dummy[i][3]) - int(dummy[i][1]),int(dummy[i][5])])
         Class1.append([int(dummy[i][5])])
 
     # lengthh = len(dummy)
@@ -75,12 +82,25 @@ while True:
 
     # this code is executed every 10 frames
     if frameCounter == 10:
-        tracker1.detectReversedCars('vertical')
+        anomaly1 = tracker1.detectAnimal()
+        anomaly2 = tracker1.detectStoppedCars()
+        anomaly3 = tracker1.detectReversedCars('horizontal')
+        anomaly4 = tracker1.detectKamyon()
+        datasent = str(anomaly1)+str(anomaly2)+str(anomaly3)+str(anomaly4)
+        
+        if datasent != '0000':
+            for i in range(10):
+                arduino_serial.write(bytes(datasent,encoding='utf-8'))
+            #duranCounter = 0
+        #else:
+            #duranCounter += 1
+            #if duranCounter == 10:
+             #   arduino_serial.write(bytes(datasent,encoding='utf-8'))
         frameCounter = 0
     #cv2.putText(new_frame,boxes_ids[4],)
 
-    if (numStoppedCar > 0):
-        print("DURAN ARABA")
+    #if (numStoppedCar > 0):
+        #print("DURAN ARABA")
     #else:
         #print("ARABA HAREKET HALİNDE")
     

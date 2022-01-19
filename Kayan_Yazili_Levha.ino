@@ -10,10 +10,7 @@ int Rii         = -1;
 
 String text = "                ";
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); // Bu kodu kullanırken ekranda yazı çıkmaz ise 0x27 yerine 0x3f yazınız !!
-
-
-  
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Bu kodu kullanırken ekranda yazı çıkmaz ise 0x27 yerine 0x3f yazınız !!  
 
 void setup() {
  Serial.begin(115200);
@@ -25,8 +22,8 @@ void setup() {
   lcd.clear();
   lcd.setCursor(0, 1);
   lcd.clear();
-           lcd.setCursor(0, 0);
-          lcd.print("   CDTP GR 47   ");   
+  lcd.setCursor(0, 0);
+  lcd.print("   CDTP GR 47   ");   
 }
 void loop() {
   lcd.setCursor(0, 1);
@@ -63,15 +60,13 @@ void loop() {
  }
  else
  {
-           lcd.setCursor(0, 0);
-          lcd.print("   CDTP GR 47   ");  
-          lcd.setCursor(0, 1);
-        lcd.print(Scroll_LCD_Left(" IYI YOLCULUKLAR "));
+ 	lcd.setCursor(0, 0);
+	lcd.print("   CDTP GR 47   ");  
+ 	lcd.setCursor(0, 1);
+	lcd.print(Scroll_LCD_Left(" IYI YOLCULUKLAR "));
  }
   x_prv = x;
- delay(250);
-
- 
+ delay(250); 
 }
 
 String Scroll_LCD_Left(String StrDisplay) {

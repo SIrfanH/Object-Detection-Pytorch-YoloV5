@@ -11,6 +11,17 @@ yolov5/
 CVenv/
 labelImg/
 yolov5s.pt
+yolov5l.pt
+video.mp4
+yolov5l.pt
+Alibi ALI-IPU3030RV IP Camera Highway Surveillance.mp4
+Traffic Animation \#01.mp4
+Traffic Animation \#03 - Vrbik.mp4
+Traffic Animation - After Effect.mp4
+comp1.mp4
+comp2.mp4
+videoplayback (1).mp4
+videoplayback.mp4
 
 # Distribution / packaging
 .Python

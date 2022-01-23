@@ -7,7 +7,7 @@ String x;
 String x_prv = "0000";
 
 const char *ssid = "iPhone";
-const char *password = "310399Ak";
+const char *password = "######";
 
 
 const int ledPin = 5;
@@ -23,7 +23,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2); // Bu kodu kullanırken ekranda yazı çıkm
 
 
 char user[] = "kaan"; // MySQL user login username
-char passwordSQL[] = "kaan1999"; // MySQL user login password
+char passwordSQL[] = "######"; // MySQL user login password
 
 char cam1_query[] = "SELECT anomaly_1, anomaly_2, anomaly_3, anomaly_4 FROM lvad.cdtp where cam_id=1";
 char cam2_query[] = "SELECT anomaly_1, anomaly_2, anomaly_3, anomaly_4 FROM lvad.cdtp where cam_id=2";

@@ -12,7 +12,7 @@ import serial
 import time
 from CDTPMySQL import *
 
-dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+dataBaseConn, dataBaseCursor = connectToMySQL('#######', 'lvad', 'kaan', '######')
 
 anomaly1 = 0
 anomaly2 = 0
@@ -50,7 +50,7 @@ frameCounter = 0
 frameCounter2 = 0
 
 
-dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+dataBaseConn, dataBaseCursor = connectToMySQL('#######', 'lvad', 'kaan', '#######')
 
 duranCounter = 0
 duranCounter2 = 0

@@ -17,7 +17,7 @@ class EuclideanDistTracker:
         self.id_count = 0
         self.cam_id = id
         # Define the connection credentials
-        #dataBaseConn, dataBaseCursor = connectToMySQL('92.205.4.52', 'lvad', 'kaan', 'kaan1999')
+        #dataBaseConn, dataBaseCursor = connectToMySQL('#####', 'lvad', 'kaan', '#####')
         #self.cursor = dataBaseCursor
         #self.conn = dataBaseConn  
 
